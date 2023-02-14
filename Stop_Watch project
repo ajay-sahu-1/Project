@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stopwatch</title>
+	<style>
+		#timer {
+			font-size: 48px;
+			margin: 20px;
+		}
+
+              body{
+    background-color:rgb(118, 172, 10);
+    /*display: flex;*/
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+body{
+    
+    display: grid;
+}
+
+button
+{
+    font-size: 20px ;
+    background-color: aqua;
+    
+}
+	</style>
+ 
+</head>
+<body>
+	<div id="timer">00 hr :00 min :00 sec</div>
+	<button onclick="start()">Start</button>
+	<button onclick="stop()">Stop</button>
+	<button onclick="reset()">Reset</button>
+
+	<script>
+		var timer = document.getElementById('timer');
+		var startButton = document.getElementsByTagName('button')[0];
+		var stopButton = document.getElementsByTagName('button')[1];
+		var resetButton = document.getElementsByTagName('button')[2];
+
+		var startTime, interval;
+
+		function start() {
+			startTime = Date.now() - (interval || 0);
+			interval = setInterval(updateTimer, 10);
+			startButton.disabled = true;
+			stopButton.disabled = false;
+		}
+
+		function stop() {
+			clearInterval(interval);
+			interval = null;
+			startButton.disabled = false;
+			stopButton.disabled = true;
+		}
+
+		function reset() {
+			stop();
+			timer.innerHTML = '00 hr :00 min :00 sec';
+		}
+
+		function updateTimer() {
+			var elapsed = Date.now() - startTime;
+			var hours = Math.floor(elapsed / 3600000);
+			var minutes = Math.floor((elapsed - (hours * 3600000)) / 60000);
+			var seconds = Math.floor((elapsed - (hours * 3600000) - (minutes * 60000)) / 1000);
+			var milliseconds = Math.floor(elapsed % 1000 / 10);
+
+			timer.innerHTML = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds) + ':' + formatTime(milliseconds);
+		}
+
+		function formatTime(time) {
+			return (time < 10 ? '0' : '') + time;
+		}
+	</script>
+</body>
+</html>
